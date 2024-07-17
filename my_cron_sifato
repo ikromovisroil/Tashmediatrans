@@ -1,0 +1,4 @@
+0 03 * * * /home/project/sifato/sifato-backend/docker_cp.sh
+0 09 * * * /home/project/sifato/sifato-backend/docker_cp.sh
+00 15 * * * /home/project/sifato/sifato-backend/docker_cp.sh
+00 21 * * * /home/project/sifato/sifato-backend/docker_cp.sh

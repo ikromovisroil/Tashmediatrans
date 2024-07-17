@@ -1,0 +1,1 @@
+certbot --nginx -d tashmediatrans.uz -d www.tashmediatrans.uz

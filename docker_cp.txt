@@ -1,0 +1,26 @@
+1.telegram-send va zip o'rnatilishi:
+    pip install telegram-send
+    apt install zip
+2.Telegram bot yaratish va so'zlov berish:
+    Telegram'da BotFather ni izlash
+    /newbot komandasini yuborish va yangi bot yaratish
+    Berilgan API kalitni saqlash
+3.telegram-sendni sozlash:
+    telegram-send --configure
+    Bu komanda boshqaruvchini sozlash uchun talab qiladi. Sizdan API kalit va chat ID so'raladi.
+4.API kalit va chat ID ni olish:
+    Telegram'da yangi xabar yuboring
+    Terminalda telegram-send "test" komandasini ishga tushiring
+    ~/.config/telegram-send.conf faylda o'zgartirishni bajarish
+5.Bash skriptni yaratish:
+    nano docker_cp.sh
+6.Skriptga erkinlik huquqlarini berish:
+    chmod +x docker_cp.sh
+7.cron yordamida skriptni ishga tushiring:
+    crontab my_cron_sifato
+8.cron yordamida skriptni ishga tushganligini tekshirish:
+    crontab -l
+9.Bo'lingan fileni qayta yig'ish uchun:
+    cat output_* > combined_file
+10.Filega kengaytmani o'zimiz beramiz:
+    combined_file.zip
