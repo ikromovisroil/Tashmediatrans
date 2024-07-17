@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <main id="main" class="main">
+
+      <div class="pagetitle">
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'xodimlar' %}">Xodimlar</a></li>
+              <li class="breadcrumb-item active">To'lov</li>
+            </ol>
+          </nav>
+      </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card recent-sales overflow-auto">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title">{{istemolchi_id.full_name}}</h5>
+                <div class="mt-3 ">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                    To'lov qo'shish
+                  </button>
+                  <div class="modal fade" id="verticalycentered" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <form method="POST" class="modal-content"> {% csrf_token %}
+                        <div class="modal-header">
+                          <h5 class="modal-title">Istemolchi qo'shish</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                              <label for="id_sana" class="col-sm-3 col-form-label">Sana</label>
+                              <div class="col-sm-9">
+                                {{form.sana}}
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                              <label for="id_naxt" class="col-sm-3 col-form-label">Naxt</label>
+                              <div class="col-sm-9">
+                                {{form.naxt}}
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                              <label for="id_karta" class="col-sm-3 col-form-label">Karta</label>
+                              <div class="col-sm-9">
+                                {{form.karta}}
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                              <label for="id_izox" class="col-sm-3 col-form-label">Izox</label>
+                              <div class="col-sm-9">
+                                {{form.izox}}
+                              </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Saqlash</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Sana</th>
+                    <th scope="col">Naxt</th>
+                    <th scope="col">Karta</th>
+                    <th scope="col">Izox</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for i in tolov %}
+                  <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>
+                      <button style="color:#4154f1;" class="btn" data-bs-toggle="modal" data-bs-target="#verticalycenteredd{{i.id}}">
+                       {{ i.sana }}
+                      </button>
+                      <div class="modal fade" id="verticalycenteredd{{i.id}}" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <form method="POST" action="{% url 'payment_edit' i.pk %}" class="modal-content"> {% csrf_token %}
+                            <div class="modal-header">
+                              <h5 class="modal-title">Taxrirlash</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                  <label for="id_naxt" class="col-sm-3 col-form-label">Naxt</label>
+                                  <div class="col-sm-9">
+                                    <input type="number" name="naxt" value="{{i.naxt}}" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="row mb-3">
+                                  <label for="id_karta" class="col-sm-3 col-form-label">Karta</label>
+                                  <div class="col-sm-9">
+                                    <input type="number" name="karta" value="{{i.karta}}" class="form-control">
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Saqlash</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </td>
+                    <td>{{ i.naxt }}</td>
+                    <td>{{ i.karta }}</td>
+                    <td>
+                        <i class="w-20">{{ i.izox|truncatewords:5 }}</i>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+
+{% endblock content %}
