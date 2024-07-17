@@ -138,22 +138,28 @@ def payment_edit(request, pk):
     if request.method == 'POST':
         naxt = request.POST.get('naxt')
         karta = request.POST.get('karta')
+        izox = request.POST.get('izox')
         if naxt and karta:
             tolov_id.karta = karta
             tolov_id.naxt = naxt
+            tolov_id.izox = izox
             tolov_id.save()
             messages.info(request, "Saqlandi")
         elif karta:
             tolov_id.karta = karta
+            tolov_id.izox = izox
             tolov_id.save()
             messages.info(request, "Saqlandi")
         elif naxt:
             tolov_id.naxt = naxt
+            tolov_id.izox = izox
             tolov_id.save()
             messages.info(request, "Saqlandi")
         else:
             messages.error(request, "Yaroqsiz ma'lumot.")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+        return redirect(reverse('login'))
 
 
     
