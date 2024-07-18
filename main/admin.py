@@ -1,11 +1,11 @@
 from django.contrib import admin
 from .models import *
 # Register your models here.
-admin.site.register(Tolov)
 
 @admin.register(Aftomabil)
 class AftomabilAdmin(admin.ModelAdmin):
-    list_display = ('id','nomi','raqami','summa',)
+    list_display = ('id','nomi','raqami','summa','status',)
+    list_filter = ('status',)
     search_fields = ('nomi','raqami',)
 
 class QarzAdmin(admin.TabularInline):
