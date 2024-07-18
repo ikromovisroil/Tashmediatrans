@@ -55,7 +55,7 @@
             {% if user.img %}
                <img src="{{ user.img.url }}" alt="Profile" class="rounded-circle">
             {% else %}
-               <img src="{% static 'img/profile-img.jpg' %}" alt="Default Profile" class="rounded-circle">
+               <img src="{% static 'assets/img/profile-img.jpg' %}" alt="Default" class="rounded-circle">
             {% endif %}
             <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.get_full_name }}</span>
           </a><!-- End Profile Iamge Icon -->
