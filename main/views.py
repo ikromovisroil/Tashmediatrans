@@ -91,11 +91,16 @@ def qarz_delete(request, pk):
 
 @login_required
 def xodimlar(request):
+    if request.method == 'POST':
+        sana = request.POST.get('sana')
+        istemolchi = Istemolchi.objects.filter(author=request.user, status=True, tolov__date=sana)
+    else:
+        istemolchi = Istemolchi.objects.filter(author=request.user, status=True)
     context = {
-        'istemolchi': Istemolchi.objects.filter(author=request.user,status=True),
+        'istemolchi': istemolchi,
         'user': request.user,
     }
-    return render(request, 'main/xodimlar.html',context)
+    return render(request, 'main/xodimlar.html', context)
 
 @login_required
 def car(request,pk):

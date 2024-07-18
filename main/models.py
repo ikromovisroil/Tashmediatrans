@@ -35,7 +35,9 @@ class Qarz(models.Model):
     istemolchi = models.ForeignKey(Istemolchi, on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     status = models.BooleanField(default=False)
-    sana = models.DateField(auto_now_add=True)
+    date_creat = models.DateField(auto_now_add=True)
+    date_edit = models.DateField(auto_now=True)
+
     
     def __str__(self):
         return self.author.username
@@ -50,8 +52,9 @@ class Tolov(models.Model):
     izox = models.TextField(null=True, blank=True)
     istemolchi = models.ForeignKey(Istemolchi, on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    sana = models.DateField()
-    sana2 = models.DateField(auto_now=True)
+    date = models.DateField()
+    date_creat = models.DateField(auto_now_add=True)
+    date_edit = models.DateField(auto_now=True)
     
     def __str__(self):
         return self.author.username

@@ -15,6 +15,32 @@
       <div class="row">
         <div class="col-lg-12">
 
+          <div class="card">
+            <div class="card-body">
+
+              <!-- General Form Elements -->
+              <form method="POST" class="mt-4">{% csrf_token %}
+                <div class="row mb-2">
+                  <div class="col-sm-4">
+                    <input type="date" name="sana" class="form-control">
+                  </div>
+                  <div class="col-sm-4">
+                    <button type="submit" class="btn btn-primary">Izlash</button>
+                  </div>
+                </div>
+              </form><!-- End General Form Elements -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
           <div class="card recent-sales overflow-auto">
             <div class="card-body">
               <div class="d-flex justify-content-between">
