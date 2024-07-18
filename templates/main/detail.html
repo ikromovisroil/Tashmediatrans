@@ -61,7 +61,7 @@
                 {% for i in qarzlar %}
                   <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td>{{i.sana}}</td>
+                    <td>{{i.date_creat}}</td>
                     <td>{{i.summa}}</td>
                     <td>
                           <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#verticalycentered{{ i.pk }}">
