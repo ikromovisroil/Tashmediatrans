@@ -23,6 +23,7 @@ class Istemolchi(models.Model):
     pazivnoy = models.CharField(max_length=20)
     tel = models.CharField(max_length=20,null=True)
     status = models.BooleanField(default=False)
+    aktiv = models.BooleanField(default=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
@@ -37,7 +38,7 @@ class Qarz(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     status = models.BooleanField(default=False)
     date_creat = models.DateField(auto_now_add=True)
-    date_edit = models.DateField(auto_now=True)
+    date_delete = models.DateField(auto_now=True)
 
     
     def __str__(self):
@@ -62,3 +63,33 @@ class Tolov(models.Model):
     
     class Meta:
         db_table = 'tolov'
+
+
+class Xodim(models.Model):
+    full_name = models.CharField(max_length=100)
+    tel = models.CharField(max_length=20, null=True)
+    oylik = models.PositiveIntegerField()
+    date = models.DateField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    
+    def __str__(self):
+        return self.full_name
+    
+    class Meta:
+        db_table = 'xodim'
+
+
+class Maosh(models.Model):
+    xodim = models.ForeignKey(Xodim, on_delete=models.CASCADE, null=True)
+    summa = models.PositiveIntegerField()
+    izox = models.TextField(null=True, blank=True)
+    date = models.DateField()
+    date_creat = models.DateField(auto_now_add=True)
+    date_edit = models.DateField(auto_now=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    
+    def __str__(self):
+        return self.summa
+    
+    class Meta:
+        db_table = 'maosh'

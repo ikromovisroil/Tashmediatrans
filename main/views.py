@@ -90,7 +90,7 @@ def qarz_delete(request, pk):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
-def xodimlar(request):
+def Xaydovchilar(request):
     if request.method == 'POST':
         sana = request.POST.get('sana')
         istemolchi = Istemolchi.objects.filter(author=request.user, status=True, tolov__date=sana)
@@ -100,7 +100,7 @@ def xodimlar(request):
         'istemolchi': istemolchi,
         'user': request.user,
     }
-    return render(request, 'main/xodimlar.html', context)
+    return render(request, 'main/Xaydovchilar.html', context)
 
 @login_required
 def car(request,pk):
