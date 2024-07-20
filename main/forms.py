@@ -42,11 +42,11 @@ class QarzForm(forms.ModelForm):
 
 
 class TolovForm(forms.ModelForm):
-    sana = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     
     class Meta:
         model = Tolov
-        fields = ('naxt','karta','izox','sana',)
+        fields = ('naxt','karta','izox','date',)
     
     def __init__(self, *args, **kwargs):
         super(TolovForm, self).__init__(*args, **kwargs)
