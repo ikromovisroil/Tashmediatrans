@@ -7,6 +7,7 @@ from users.models import *
 from .models import *
 from .forms import *
 from django.db.models import Sum, Case, When, IntegerField
+from django.db.models import Max
 # Create your views here.
 
 @login_required
@@ -30,11 +31,15 @@ def profil(request):
 
 @login_required
 def index(request):
+    istemolchi = Istemolchi.objects.aggregate(Max('id'))
+    istemolchi_max_id = istemolchi['id__max']
     if request.method == 'POST':
         form = NewIshchiForm(data=request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.author = request.user
+            if istemolchi_max_id is not None:
+                user.id = istemolchi_max_id + 1
             user.save()
             messages.info(request, "Saqlandi ")
             return redirect(reverse('index'))

@@ -69,6 +69,7 @@ class Xodim(models.Model):
     full_name = models.CharField(max_length=100)
     tel = models.CharField(max_length=20, null=True)
     oylik = models.PositiveIntegerField()
+    status = models.BooleanField(default=False)
     date = models.DateField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     
@@ -89,7 +90,7 @@ class Maosh(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
-        return self.summa
+        return self.xodim.full_name
     
     class Meta:
         db_table = 'maosh'
