@@ -84,9 +84,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tashmediatrans',
         'USER': 'postgres',
-        # 'PASSWORD': 'eCbJQbYqs1223oB',
+        'PASSWORD': 'eCbJQbYqs1223oB',
         'HOST': 'postgres',
-        'HOST': '91.205.105.27',
+        # 'HOST': '91.205.105.27',
         'PORT': '5432',
     }
 }
