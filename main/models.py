@@ -8,6 +8,8 @@ class Aftomabil(models.Model):
     raqami = models.CharField(max_length=20,null=True, blank=True)
     summa = models.PositiveIntegerField(null=True, blank=True)
     status = models.BooleanField(default=False)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
     
     def __str__(self):
         return self.nomi
@@ -24,7 +26,7 @@ class Istemolchi(models.Model):
     tel = models.CharField(max_length=20,null=True)
     status = models.BooleanField(default=False)
     aktiv = models.BooleanField(default=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     
     def __str__(self):
         return self.full_name
@@ -34,8 +36,8 @@ class Istemolchi(models.Model):
 
 class Qarz(models.Model):
     summa = models.PositiveIntegerField()
-    istemolchi = models.ForeignKey(Istemolchi, on_delete=models.CASCADE, null=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    istemolchi = models.ForeignKey(Istemolchi, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     status = models.BooleanField(default=False)
     date_creat = models.DateField(auto_now_add=True)
     date_delete = models.DateField(auto_now=True)
@@ -52,8 +54,8 @@ class Tolov(models.Model):
     naxt = models.PositiveIntegerField(null=True, blank=True)
     karta = models.PositiveIntegerField(null=True, blank=True)
     izox = models.TextField(null=True, blank=True)
-    istemolchi = models.ForeignKey(Istemolchi, on_delete=models.CASCADE, null=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    istemolchi = models.ForeignKey(Istemolchi, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     date = models.DateField()
     date_creat = models.DateField(auto_now_add=True)
     date_edit = models.DateField(auto_now=True)
@@ -71,7 +73,7 @@ class Xodim(models.Model):
     oylik = models.PositiveIntegerField()
     status = models.BooleanField(default=False)
     date = models.DateField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     
     def __str__(self):
         return self.full_name
@@ -87,7 +89,7 @@ class Maosh(models.Model):
     date = models.DateField()
     date_creat = models.DateField(auto_now_add=True)
     date_edit = models.DateField(auto_now=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     
     def __str__(self):
         return self.xodim.full_name
