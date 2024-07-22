@@ -9,6 +9,7 @@ from .forms import *
 from django.db.models import Sum, Case, When, IntegerField
 from django.db.models import Max
 import datetime
+from django.db.models import Q
 
 # Create your views here.
 
@@ -33,8 +34,8 @@ def profil(request):
 
 @login_required
 def index(request):
-    istemolchi = Istemolchi.objects.aggregate(Max('id'))
-    istemolchi_max_id = istemolchi['id__max']
+    istemolchi_max = Istemolchi.objects.aggregate(Max('id'))
+    istemolchi_max_id = istemolchi_max['id__max']
     if request.method == 'POST':
         form = NewIshchiForm(data=request.POST)
         if form.is_valid():
@@ -43,14 +44,15 @@ def index(request):
             if istemolchi_max_id is not None:
                 user.id = istemolchi_max_id + 1
             user.save()
-            messages.info(request, "Saqlandi ")
+            messages.info(request, "Saqlandi")
             return redirect(reverse('index'))
         else:
-            messages.success(request, "Yaroqsiz maʼlumot.")
+            messages.error(request, "Yaroqsiz maʼlumot.")
     else:
         form = NewIshchiForm()
-    context = {
-        'istemolchi': Istemolchi.objects.filter(author=request.user).annotate(
+
+    if request.user.is_superuser:
+        istemolchi = Istemolchi.objects.all().annotate(
             summa=Sum(
                 Case(
                     When(qarz__status=False, then='qarz__summa'),
@@ -58,11 +60,25 @@ def index(request):
                     output_field=IntegerField()
                 )
             )
-        )[::-1],
+        ).order_by('-id')
+    else:
+        istemolchi = Istemolchi.objects.filter(author=request.user).annotate(
+            summa=Sum(
+                Case(
+                    When(qarz__status=False, then='qarz__summa'),
+                    default=0,
+                    output_field=IntegerField()
+                )
+            )
+        ).order_by('-id')
+
+    context = {
+        'istemolchi': istemolchi,
         'form': form,
         'user': request.user,
     }
-    return render(request, 'main/index.html',context)
+    return render(request, 'main/index.html', context)
+
 
 @login_required
 def detail(request,pk):
@@ -96,20 +112,41 @@ def qarz_delete(request, pk):
     messages.info(request, "O'chirildi!")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import Istemolchi
+import datetime
+
+
 @login_required
 def Xaydovchilar(request):
     date = datetime.date.today()
-    print(date)
-    if request.method == 'POST':
-        sana = request.POST.get('sana')
-        istemolchi = Istemolchi.objects.filter(author=request.user, status=True, tolov__date=sana)
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            sana = request.POST.get('sana')
+            if sana:
+                istemolchi = Istemolchi.objects.filter(status=True, tolov__date=sana)
+            else:
+                istemolchi = Istemolchi.objects.filter(status=True)
+        else:
+            istemolchi = Istemolchi.objects.filter(status=True)
     else:
-        istemolchi = Istemolchi.objects.filter(author=request.user, status=True)
+        if request.method == 'POST':
+            sana = request.POST.get('sana')
+            if sana:
+                istemolchi = Istemolchi.objects.filter(author=request.user, status=True, tolov__date=sana)
+            else:
+                istemolchi = Istemolchi.objects.filter(author=request.user, status=True)
+        else:
+            istemolchi = Istemolchi.objects.filter(author=request.user, status=True)
+    
     context = {
         'istemolchi': istemolchi,
         'user': request.user,
     }
     return render(request, 'main/Xaydovchilar.html', context)
+
 
 @login_required
 def car(request,pk):
@@ -139,7 +176,7 @@ def payment(request,pk):
         form = TolovForm()
     context = {
         'form': form,
-        'tolov': Tolov.objects.filter(author=request.user, istemolchi=istemolchi_id)[:60][::-1],
+        'tolov': Tolov.objects.filter(istemolchi=istemolchi_id)[:60][::-1],
         'istemolchi_id': istemolchi_id,
         'user': request.user,
     }
@@ -176,4 +213,51 @@ def payment_edit(request, pk):
         return redirect(reverse('login'))
 
 
-    
+@login_required
+def employee(request):
+    context = {
+        'xodimlar' : Xodim.objects.all(),
+        'user': request.user,
+    }
+    return render(request, 'main/employee.html',context)
+
+@login_required
+def avans(request,pk):
+    xodim_id = get_object_or_404(Xodim, id=pk)
+    if request.method == 'POST':
+        form = MaoshForm(request.POST)
+        if form.is_valid():
+            maosh = form.save(commit=False)
+            maosh.xodim = xodim_id
+            maosh.author = request.user
+            maosh.save()
+            messages.info(request, "Saqlandi ")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.success(request, "Yaroqsiz maʼlumot !")
+    else:
+        form = MaoshForm()
+    context = {
+        'form': form,
+        'maosh':Maosh.objects.filter(xodim=xodim_id),
+        'xodim_id': xodim_id,
+        'user': request.user,
+    }
+    return render(request, 'main/avans.html',context)
+
+@login_required
+def avans_edit(request, pk):
+    maosh = get_object_or_404(Maosh, id=pk)
+    if request.method == 'POST':
+        summa = request.POST.get('summa')
+        izox = request.POST.get('izox')
+        if summa:
+            maosh.summa = summa
+            maosh.izox = izox
+            maosh.save()
+            messages.info(request, "Saqlandi")
+        else:
+            messages.error(request, "Yaroqsiz ma'lumot.")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+        return redirect(reverse('login'))

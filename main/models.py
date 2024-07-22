@@ -18,7 +18,6 @@ class Aftomabil(models.Model):
         db_table = 'aftomabil'
 
 
-
 class Istemolchi(models.Model):
     aftomabil = models.ForeignKey(Aftomabil, on_delete=models.SET_NULL, null=True, blank=True)
     full_name = models.CharField(max_length=100)
@@ -33,6 +32,7 @@ class Istemolchi(models.Model):
     
     class Meta:
         db_table = 'istemolchi'
+        
 
 class Qarz(models.Model):
     summa = models.PositiveIntegerField()
@@ -42,7 +42,6 @@ class Qarz(models.Model):
     date_creat = models.DateField(auto_now_add=True)
     date_delete = models.DateField(auto_now=True)
 
-    
     def __str__(self):
         return self.author.username
     

@@ -52,4 +52,16 @@ class TolovForm(forms.ModelForm):
         super(TolovForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
-            
+
+
+class MaoshForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    
+    class Meta:
+        model = Maosh
+        fields = ('summa', 'izox', 'date',)
+    
+    def __init__(self, *args, **kwargs):
+        super(MaoshForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
