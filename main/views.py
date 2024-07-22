@@ -8,6 +8,8 @@ from .models import *
 from .forms import *
 from django.db.models import Sum, Case, When, IntegerField
 from django.db.models import Max
+import datetime
+
 # Create your views here.
 
 @login_required
@@ -96,6 +98,8 @@ def qarz_delete(request, pk):
 
 @login_required
 def Xaydovchilar(request):
+    date = datetime.date.today()
+    print(date)
     if request.method == 'POST':
         sana = request.POST.get('sana')
         istemolchi = Istemolchi.objects.filter(author=request.user, status=True, tolov__date=sana)

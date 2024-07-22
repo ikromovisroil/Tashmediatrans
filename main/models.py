@@ -12,7 +12,7 @@ class Aftomabil(models.Model):
 
     
     def __str__(self):
-        return self.nomi
+        return f"{self.nomi}, {self.raqami}"
     
     class Meta:
         db_table = 'aftomabil'
@@ -96,3 +96,17 @@ class Maosh(models.Model):
     
     class Meta:
         db_table = 'maosh'
+        
+
+class Car_cost(models.Model):
+    aftomabil = models.ForeignKey(Aftomabil, on_delete=models.SET_NULL, null=True)
+    date = models.DateField()
+    summa = models.PositiveIntegerField()
+    izox = models.TextField(null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    
+    def __str__(self):
+        return self.aftomabil.nomi
+    
+    class Meta:
+        db_table = 'car_cost'

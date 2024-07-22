@@ -52,4 +52,12 @@ class MaoshAdmin(admin.ModelAdmin):
         return obj.xodim.full_name
     xodim_full_name.short_description = 'Xodim'
     
+@admin.register(Car_cost)
+class Car_costAdmin(admin.ModelAdmin):
+    list_display = ('id', 'get_car_name','date', 'summa',)
+    list_filter = ('aftomabil__nomi',)
+    search_fields = ('aftomabil__nomi',)
 
+    def get_car_name(self, obj):
+        return obj.aftomabil.nomi
+    get_car_name.short_description = 'Aftomabil'

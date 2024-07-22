@@ -53,6 +53,7 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">To'liq ism</th>
+                    <th scope="col">Mashina</th>
                     <th scope="col">Pazivnoy</th>
                     <th scope="col">Telefon</th>
                   </tr>
@@ -62,7 +63,8 @@
                   <tr>
                     <th scope="row">{{forloop.counter}}</th>
                     <td><a href="{% url 'payment' i.pk %}">{{i.full_name}}</a></td>
-                    <td><a href="{% url 'car' i.pk %}">{{ i.pazivnoy }}</a></td>
+                    <td><a href="{% url 'payment' i.pk %}">{{i.aftomabil.nomi}},{{i.aftomabil.raqami}}</a></td>
+                    <td>{{ i.pazivnoy }}</td>
                     <td>{{ i.tel }}</td>
                   </tr>
                 {% endfor %}
