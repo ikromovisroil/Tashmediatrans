@@ -261,3 +261,25 @@ def avans_edit(request, pk):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
         return redirect(reverse('login'))
+    
+@login_required
+def aftomabil(request):
+    # if request.method == 'POST':
+    #     form = MaoshForm(request.POST)
+    #     if form.is_valid():
+    #         maosh = form.save(commit=False)
+    #         maosh.xodim = xodim_id
+    #         maosh.author = request.user
+    #         maosh.save()
+    #         messages.info(request, "Saqlandi ")
+    #         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    #     else:
+    #         messages.success(request, "Yaroqsiz maʼlumot !")
+    # else:
+    #     form = MaoshForm()
+    context = {
+        # 'form': form,
+        'aftomabil': Aftomabil.objects.all(),
+        'user': request.user,
+    }
+    return render(request, 'main/aftomabil.html',context)

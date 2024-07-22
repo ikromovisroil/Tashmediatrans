@@ -16,25 +16,18 @@ class IstemolchiAdmin(admin.ModelAdmin):
     
 @admin.register(Qarz)
 class QarzAdmin(admin.ModelAdmin):
-    list_display = ('id','istemolchi_full_name','summa','status','date_creat','date_delete',)
-    list_filter = ('istemolchi__full_name','istemolchi__pazivnoy','status',)
-    search_fields = ('istemolchi__full_name','istemolchi__pazivnoy','istemolchi__tel','summa',)
+    list_display = ('id','istemolchi','summa','status','date_creat','date_delete',)
+    list_filter = ('status',)
+    search_fields = ('summa',)
     
-    def istemolchi_full_name(self, obj):
-        return obj.istemolchi.full_name
-    istemolchi_full_name.short_description = 'Istemolchi'
 
 
 @admin.register(Tolov)
 class TolovAdmin(admin.ModelAdmin):
-    list_display = ('id', 'istemolchi_full_name', 'naxt','karta','date', 'date_creat', 'date_edit',)
+    list_display = ('id', 'istemolchi', 'naxt','karta','date', 'date_creat', 'date_edit',)
     list_filter = ('istemolchi__status','date','date_creat',)
     search_fields = ('istemolchi__full_name', 'istemolchi__pazivnoy',)
     
-    def istemolchi_full_name(self, obj):
-        return obj.istemolchi.full_name
-    
-    istemolchi_full_name.short_description = 'Istemolchi'
     
 @admin.register(Xodim)
 class XodimAdmin(admin.ModelAdmin):
@@ -54,10 +47,7 @@ class MaoshAdmin(admin.ModelAdmin):
     
 @admin.register(Car_cost)
 class Car_costAdmin(admin.ModelAdmin):
-    list_display = ('id', 'get_car_name','date', 'summa',)
+    list_display = ('id', 'aftomabil','date', 'summa',)
     list_filter = ('aftomabil__nomi',)
     search_fields = ('aftomabil__nomi',)
 
-    def get_car_name(self, obj):
-        return obj.aftomabil.nomi
-    get_car_name.short_description = 'Aftomabil'

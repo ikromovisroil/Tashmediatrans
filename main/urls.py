@@ -13,4 +13,5 @@ urlpatterns = [
     path('employee/', employee, name='employee'),
     path('avans/<int:pk>', avans, name='avans'),
     path('avans_edit/<int:pk>', avans_edit, name='avans_edit'),
+    path('aftomabil/', aftomabil, name='aftomabil'),
 ]
