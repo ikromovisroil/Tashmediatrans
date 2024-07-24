@@ -14,4 +14,6 @@ urlpatterns = [
     path('avans/<int:pk>', avans, name='avans'),
     path('avans_edit/<int:pk>', avans_edit, name='avans_edit'),
     path('aftomabil/', aftomabil, name='aftomabil'),
+    path('xarajatlar/<int:pk>', xarajatlar, name='xarajatlar'),
+    path('car_aktiv/<int:pk>', car_aktiv, name='car_aktiv'),
 ]

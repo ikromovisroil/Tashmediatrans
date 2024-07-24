@@ -100,6 +100,7 @@ class Maosh(models.Model):
 class Car_cost(models.Model):
     aftomabil = models.ForeignKey(Aftomabil, on_delete=models.SET_NULL, null=True)
     date = models.DateField()
+    date_creat = models.DateField(auto_now_add=True)
     summa = models.PositiveIntegerField()
     izox = models.TextField(null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

@@ -9,8 +9,6 @@ from .forms import *
 from django.db.models import Sum, Case, When, IntegerField
 from django.db.models import Max
 import datetime
-from django.db.models import Q
-
 # Create your views here.
 
 @login_required
@@ -50,7 +48,6 @@ def index(request):
             messages.error(request, "Yaroqsiz maʼlumot.")
     else:
         form = NewIshchiForm()
-
     if request.user.is_superuser:
         istemolchi = Istemolchi.objects.all().annotate(
             summa=Sum(
@@ -113,15 +110,8 @@ def qarz_delete(request, pk):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from .models import Istemolchi
-import datetime
-
-
 @login_required
 def Xaydovchilar(request):
-    date = datetime.date.today()
     if request.user.is_superuser:
         if request.method == 'POST':
             sana = request.POST.get('sana')
@@ -264,22 +254,47 @@ def avans_edit(request, pk):
     
 @login_required
 def aftomabil(request):
-    # if request.method == 'POST':
-    #     form = MaoshForm(request.POST)
-    #     if form.is_valid():
-    #         maosh = form.save(commit=False)
-    #         maosh.xodim = xodim_id
-    #         maosh.author = request.user
-    #         maosh.save()
-    #         messages.info(request, "Saqlandi ")
-    #         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    #     else:
-    #         messages.success(request, "Yaroqsiz maʼlumot !")
-    # else:
-    #     form = MaoshForm()
     context = {
-        # 'form': form,
         'aftomabil': Aftomabil.objects.all(),
         'user': request.user,
     }
     return render(request, 'main/aftomabil.html',context)
+
+@login_required
+def xarajatlar(request,pk):
+    aftomabil_id = get_object_or_404(Aftomabil, id=pk)
+    if request.method == 'POST':
+        form = Car_costForm(request.POST)
+        if form.is_valid():
+            xarajat = form.save(commit=False)
+            xarajat.aftomabil = aftomabil_id
+            xarajat.author = request.user
+            xarajat.save()
+            messages.info(request, "Saqlandi ")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.success(request, "Yaroqsiz maʼlumot !")
+    else:
+        form = Car_costForm()
+    context = {
+        'form':form,
+        'xarajatlar': Car_cost.objects.filter(aftomabil=aftomabil_id)[::-1],
+        'aftomabil_id': aftomabil_id,
+        'user': request.user,
+    }
+    return render(request, 'main/xarajatlar.html',context)
+
+
+@login_required
+def car_aktiv(request,pk):
+    aftomabil_id = get_object_or_404(Aftomabil, id=pk)
+    if aftomabil_id.status == True:
+        aftomabil_id.status=False
+    else:
+        aftomabil_id.status = True
+    aftomabil_id.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+    
+    
+    

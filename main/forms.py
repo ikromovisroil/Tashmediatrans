@@ -65,3 +65,16 @@ class MaoshForm(forms.ModelForm):
         super(MaoshForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
+
+
+class Car_costForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    
+    class Meta:
+        model = Car_cost
+        fields = ('summa', 'izox', 'date',)
+    
+    def __init__(self, *args, **kwargs):
+        super(Car_costForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'

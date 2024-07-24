@@ -26,25 +26,33 @@
                 <thead>
                   <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Xaydovchi</th>
                     <th scope="col">Nomi</th>
                     <th scope="col">Raqami</th>
-                    <th scope="col">Pazivnoy</th>
+                    <th scope="col">Summa</th>
                     <th scope="col">holat</th>
                   </tr>
                 </thead>
                 <tbody>
                 {% for i in aftomabil %}
                   <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                    <td>{{i.nomi}}</td>
-                    <td>{{i.raqami}}</td>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>
+                      {% for j in i.istemolchi_set.all %}
+                        <p>{{ j.full_name }}</p>
+                      {% endfor %}
+                    </td>
+                    <td><a href="{% url 'xarajatlar' i.id %}">{{ i.nomi }}</a></td>
+                    <td>{{ i.raqami }}</td>
                     <td>{{ i.summa }}</td>
                     <td>
+                    <a href="{% url 'car_aktiv' i.pk %}">
                       {% if i.status %}
                         <span class="badge bg-success">aktiv</span>
                       {% else %}
                         <span class="badge bg-danger">passiv</span>
                       {% endif %}
+                    </a>
                     </td>
                   </tr>
                 {% endfor %}
