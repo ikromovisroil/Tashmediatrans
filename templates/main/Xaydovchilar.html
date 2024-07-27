@@ -44,7 +44,7 @@
           <div class="card recent-sales overflow-auto">
             <div class="card-body">
               <div class="d-flex justify-content-between">
-                <h5 class="card-title">Jadval</h5>
+                <h5 class="card-title">Jadval: {{sana}}</h5>
               </div>
 
               <!-- Table with stripped rows -->
@@ -54,18 +54,22 @@
                     <th scope="col">#</th>
                     <th scope="col">To'liq ism</th>
                     <th scope="col">Mashina</th>
-                    <th scope="col">Pazivnoy</th>
                     <th scope="col">Telefon</th>
+                    <th scope="col">Naxt</th>
+                    <th scope="col">Karta</th>
+                    <th scope="col">Izox</th>
                   </tr>
                 </thead>
                 <tbody>
                 {% for i in istemolchi %}
                   <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td><a href="{% url 'payment' i.pk %}">{{i.full_name}}</a></td>
-                    <td><a href="{% url 'payment' i.pk %}">{{i.aftomabil.nomi}},{{i.aftomabil.raqami}}</a></td>
-                    <td>{{ i.pazivnoy }}</td>
-                    <td>{{ i.tel }}</td>
+                    <td><a href="{% url 'payment' i.0 %}">{{i.1}}</a></td>
+                    <td>{{i.2}},{{i.3}}</td>
+                    <td>{{ i.4 }}</td>
+                    <td>{{ i.5 }}</td>
+                    <td>{{ i.6 }}</td>
+                    <td>{{ i.7 }}</td>
                   </tr>
                 {% endfor %}
                 </tbody>

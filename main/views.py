@@ -6,8 +6,10 @@ from django.shortcuts import get_object_or_404
 from users.models import *
 from .models import *
 from .forms import *
-from django.db.models import Sum, Case, When, IntegerField
+from django.db import connection
 from django.db.models import Max
+from django.db.models import F, Q, Sum, Value, Case, When, IntegerField
+from django.db.models.functions import Coalesce
 import datetime
 # Create your views here.
 
@@ -112,40 +114,31 @@ def qarz_delete(request, pk):
 
 @login_required
 def Xaydovchilar(request):
-    if request.user.is_superuser:
-        if request.method == 'POST':
-            sana = request.POST.get('sana')
-            if sana:
-                istemolchi = Istemolchi.objects.filter(status=True, tolov__date=sana)
-            else:
-                istemolchi = Istemolchi.objects.filter(status=True)
-        else:
-            istemolchi = Istemolchi.objects.filter(status=True)
+    if request.method == 'POST':
+        sana = request.POST.get('sana')
+        try:
+            sana = datetime.datetime.strptime(sana, "%Y-%m-%d").date()
+        except (ValueError, TypeError):
+            sana = datetime.date.today()
     else:
-        if request.method == 'POST':
-            sana = request.POST.get('sana')
-            if sana:
-                istemolchi = Istemolchi.objects.filter(author=request.user, status=True, tolov__date=sana)
-            else:
-                istemolchi = Istemolchi.objects.filter(author=request.user, status=True)
-        else:
-            istemolchi = Istemolchi.objects.filter(author=request.user, status=True)
-    
+        sana = datetime.date.today()
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT i.id, i.full_name, a.nomi, a.raqami, i.tel, t.naxt, t.karta, t.izox
+            FROM istemolchi i
+            INNER JOIN aftomabil a ON i.aftomabil_id = a.id
+            LEFT JOIN tolov t ON t.istemolchi_id = i.id AND t.date = %s
+            WHERE i.status = True;
+        """, [sana])
+        istemolchi = cursor.fetchall()
+
     context = {
+        'sana': sana,
         'istemolchi': istemolchi,
         'user': request.user,
     }
     return render(request, 'main/Xaydovchilar.html', context)
-
-
-@login_required
-def car(request,pk):
-    istemolchi_id = get_object_or_404(Istemolchi, id=pk)
-    context = {
-        'istemolchi_id': istemolchi_id,
-        'user': request.user,
-    }
-    return render(request, 'main/car.html',context)
 
 
 @login_required
