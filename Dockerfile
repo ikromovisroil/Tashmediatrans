@@ -1,4 +1,3 @@
-# RUN pip install --upgrade pip
 FROM python:3.11
 ENV DockerHOME=/home/app/webapp  
 
@@ -11,6 +10,7 @@ ENV PYTHONUNBUFFERED 1
 
 COPY . $DockerHOME
 
+RUN pip install --upgrade pip
 
 RUN pip install -r req.txt
 
