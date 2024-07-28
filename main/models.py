@@ -50,9 +50,9 @@ class Qarz(models.Model):
 
 
 class Tolov(models.Model):
-    naxt = models.PositiveIntegerField(null=True, blank=True)
-    karta = models.PositiveIntegerField(null=True, blank=True)
-    izox = models.TextField(null=True, blank=True)
+    naxt = models.PositiveIntegerField(default=0, null=True, blank=True)
+    karta = models.PositiveIntegerField(default=0,null=True, blank=True)
+    izox = models.TextField(default='', null=True, blank=True)
     istemolchi = models.ForeignKey(Istemolchi, on_delete=models.SET_NULL, null=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     date = models.DateField()
