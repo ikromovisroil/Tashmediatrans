@@ -159,7 +159,7 @@ def payment(request,pk):
         form = TolovForm()
     context = {
         'form': form,
-        'tolov': Tolov.objects.filter(istemolchi=istemolchi_id)[:60][::-1],
+        'tolov': Tolov.objects.filter(istemolchi=istemolchi_id).order_by('-date')[:60],
         'istemolchi_id': istemolchi_id,
         'user': request.user,
     }
