@@ -70,11 +70,12 @@ def index(request):
                 )
             )
         ).order_by('-id')
-
+    jami_sum = istemolchi.aggregate(Sum('summa'))['summa__sum']
     context = {
         'istemolchi': istemolchi,
         'form': form,
         'user': request.user,
+        'jami_sum': jami_sum,
     }
     return render(request, 'main/index.html', context)
 
