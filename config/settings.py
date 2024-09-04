@@ -85,8 +85,8 @@ DATABASES = {
         'NAME': 'tashmediatrans',
         'USER': 'postgres',
         'PASSWORD': 'eCbJQbYqs1223oB',
-        'HOST': 'postgres',
-        # 'HOST': '91.205.105.27',
+        # 'HOST': 'postgres',
+        'HOST': '91.205.105.27',
         'PORT': '5432',
     }
 }
@@ -142,8 +142,9 @@ MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
-
-LOGIN_REDIRECT_URL = 'login'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'profil'
 LOGOUT_REDIRECT_URL = 'login'
 
 JAZZMIN_SETTINGS = {
